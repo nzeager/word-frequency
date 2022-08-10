@@ -1,3 +1,5 @@
+import string
+
 STOP_WORDS = [
     'a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'for', 'from', 'has', 'he',
     'i', 'in', 'is', 'it', 'its', 'of', 'on', 'that', 'the', 'to', 'were',
@@ -7,7 +9,14 @@ STOP_WORDS = [
 
 def print_word_freq(file):
     """Read in `file` and print out the frequency of words in that file."""
-    pass
+    f = open(file)
+    contents = f.read()
+    f.close()
+    contents = contents.translate(
+        str.maketrans(string.punctuation, ' '*len(string.punctuation)))
+    # for word in STOP_WORDS:
+    #     contents = contents.replace(word, '')
+    print(contents)
 
 
 if __name__ == "__main__":
