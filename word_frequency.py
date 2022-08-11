@@ -70,7 +70,7 @@ def print_word_freq(file):
 
     # print out results
     for wordpair in contents_with_counts:
-        print(f'{wordpair[0] : >10} | {wordpair[1]} {wordpair[2]}')
+        print(f'{wordpair[0].rjust(length)} | {wordpair[1]} {wordpair[2]}')
 
 
 if __name__ == "__main__":
