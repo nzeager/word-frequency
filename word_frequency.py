@@ -14,63 +14,71 @@ def print_word_freq(file):
     with open(file, 'r') as input_file:
         contents = input_file.read().lower()
 
-    # remove punctuation
-    punc = string.punctuation
-    punc = punc.replace('-', '')
-    contents = contents.translate(
-        # str.maketrans(string.punctuation, ' '*len(string.punctuation)))
-        str.maketrans(punc, ' '*len(punc)))
+    # removes punctuation
+    contents = remove_punc(contents)
 
     # converts text string into list of words
     contents_list = contents.split()
 
-    # create new list without repeating words
-    contents_list_no_repeats = []
-    for word in contents_list:
-        if contents_list_no_repeats.count(word) == 0:
-            contents_list_no_repeats.append(word)
+    # creates new list without repeating words
+    contents_list_no_repeats = no_repeat(contents_list)
 
-    # remove stop words
+    # removes stop words
     for word in STOP_WORDS:
         if contents_list_no_repeats.count(word) == 1:
             contents_list_no_repeats.remove(word)
 
-    # create new list with counts for each word
+    # creates new list with counts for each word
     counts = []
     for word in contents_list_no_repeats:
         counts.append(contents_list.count(word))
 
-    # create new list with * representations of counts
+    # creates new list with * representations of counts
     astr = []
     for count in counts:
-        astr_disp = ''
-        round = 0
-        while round < count:
-            astr_disp += '*'
-            round += 1
-        astr.append(astr_disp)
+        astr.append('*' * count)
 
-    # combine the non-repeating words with counts
+    # combines the non-repeating words, counts
     # and * representations into a list of sublists
     # with each sublist containing corresponding values
-    contents_with_counts = []
-    for i in range(len(counts)):
-        contents_with_counts.append(
-            [contents_list_no_repeats[i], counts[i], astr[i]])
+    # then sorts the list by counts
+    contents_with_counts = combine(contents_list_no_repeats, counts, astr)
 
-    # sort contents_with_counts in descending order
-    # by the second element in each sublist
-    contents_with_counts.sort(key=lambda x: x[1], reverse=True)
+    # finds character length of longest word
+    length = len(max(contents_list_no_repeats, key=len))
 
-    # find character length of longest word
-    length = 0
-    for word in contents_list_no_repeats:
-        if len(word) > length:
-            length = len(word)
-
-    # print out results
+    # prints out results
     for wordpair in contents_with_counts:
         print(f'{wordpair[0].rjust(length)} | {wordpair[1]} {wordpair[2]}')
+
+
+# function removes punctuation
+def remove_punc(cont_string):
+    punc = string.punctuation
+    punc = punc.replace('-', '')
+    return cont_string.translate(
+        str.maketrans(punc, ' '*len(punc)))
+
+
+# function creates new list without repeating words
+def no_repeat(list):
+    list_no_repeats = []
+    for word in list:
+        if list_no_repeats.count(word) == 0:
+            list_no_repeats.append(word)
+    return list_no_repeats
+
+
+def combine(list1, list2, list3):
+    # combines the three lists
+    combo = []
+    for i in range(len(list2)):
+        combo.append(
+            [list1[i], list2[i], list3[i]])
+
+    # sorts lists by the second entry
+    combo.sort(key=lambda x: x[1], reverse=True)
+    return combo
 
 
 if __name__ == "__main__":
