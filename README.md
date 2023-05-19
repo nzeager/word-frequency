@@ -1,6 +1,15 @@
 # Word Frequency
 
-## Directions
+## Momentum Boot Camp Project 7
+
+Skills:
+
+- first python project
+- counting the number of times a word is used in a file
+- removing any differences based on punctuation or letter case
+- removing some common words from the count (ex: a)
+
+## Below are Project Directions
 
 In this project, you will use `open` to read in a text file and calculate the frequency of words in that file.
 
